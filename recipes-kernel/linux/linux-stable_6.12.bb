@@ -6,6 +6,7 @@ LICENSE = "GPL-2.0-only"
 HOMEPAGE = "https://kernel.org/"
 
 require recipes-kernel/linux/linux-yocto.inc
+require recipes-kernel/linux/linux-raspberrypi.inc
 
 LINUX_VERSION = "6.12.28"
 PV = "${LINUX_VERSION}+git${SRCPV}"
@@ -37,9 +38,25 @@ UBOOT_LOADADDRESS:raspberrypi3 =      "0x00008000"
 
 RPI_USE_U_BOOT= "1"
 
+DEPENDS += "rpi-bootfiles"
+
+# SRC_URI = "\
+#     git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git;protocol=https;name=machine;branch=${KBRANCH} \
+#     git://git.yoctoproject.org/yocto-kernel-cache;protocol=https;type=kmeta;name=meta;branch=${KMETABRANCH};destsuffix=${KMETA} \
+#     git://github.com/raspberrypi/linux.git;protocol=https;name=rpilinux;branch=rpi-6.12.y;destsuffix=rpilinux \
+#     file://bcm2709_defconfig \
+# "
+
 SRC_URI = "\
     git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git;protocol=https;name=machine;branch=${KBRANCH} \
     git://git.yoctoproject.org/yocto-kernel-cache;protocol=https;type=kmeta;name=meta;branch=${KMETABRANCH};destsuffix=${KMETA} \
     git://github.com/raspberrypi/linux.git;protocol=https;name=rpilinux;branch=rpi-6.12.y;destsuffix=rpilinux \
-    file://bcm2709_defconfig \
 "
+
+# do_unpack:append() {
+#     cp ${WORKDIR}/rpilinux/arch/arm/configs/bcm2709_defconfig ${WORKDIR}/
+# }
+
+do_kernel_metadata:prepend(){
+    cp ${WORKDIR}/rpilinux/arch/arm/configs/* ${S}/arch/arm/configs/
+}
