@@ -58,6 +58,10 @@ SRC_URI = "\
 #     cp ${WORKDIR}/rpilinux/arch/arm/configs/bcm2709_defconfig ${WORKDIR}/
 # }
 
+RPI_KERNEL_DEVICETREE_OVERLAYS:remove = "overlays/imx708.dtbo"
+
+RPI_KERNEL_DEVICETREE:remove = "bcm2711-rpi-cm4s.dtb"
+
 do_kernel_metadata:prepend(){
     cp ${WORKDIR}/rpilinux/arch/arm/configs/* ${S}/arch/arm/configs/
 }
