@@ -37,6 +37,7 @@ UBOOT_ENTRYPOINT:raspberrypi3 =       "0x00008000"
 UBOOT_LOADADDRESS:raspberrypi3 =      "0x00008000"
 
 RPI_USE_U_BOOT= "1"
+ENABLE_UART = "1"
 
 DEPENDS += "rpi-bootfiles"
 
