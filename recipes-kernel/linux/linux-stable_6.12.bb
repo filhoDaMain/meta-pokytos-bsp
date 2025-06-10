@@ -1,13 +1,17 @@
+FILESEXTRAPATHS:append := "${THISDIR}/files:"
+
 SUMMARY = "Linux kernel"
 SECTION = "kernel"
 LICENSE = "GPL-2.0-only"
 HOMEPAGE = "https://kernel.org/"
 
-require recipes-kernel/linux/linux-yocto.inc
-
 LINUX_VERSION = "6.12.28"
-PV = "${LINUX_VERSION}+git${SRCPV}"
-COMPATIBLE_MACHINE = "qemuarm"
+COMPATIBLE_MACHINE = "qemuarm|rpi"
+
+
+require recipes-kernel/linux/linux-yocto.inc
+include include/${MACHINE}.inc
+
 
 KBRANCH = "linux-6.12.y"
 SRCREV_machine = "f08cdc6cc92e3d23a05745f0f12f8caa348a27b4"
@@ -25,7 +29,8 @@ KERNEL_FEATURES:append = " ${KERNEL_EXTRA_FEATURES}"
 # Emulation (QEMU) specific
 KERNEL_FEATURES:append:qemuall = " cfg/virtio.scc"
 
-SRC_URI = "\
+PV = "${LINUX_VERSION}+git${SRCPV}"
+SRC_URI += "\
     git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git;protocol=https;name=machine;branch=${KBRANCH} \
     git://git.yoctoproject.org/yocto-kernel-cache;protocol=https;type=kmeta;name=meta;branch=${KMETABRANCH};destsuffix=${KMETA} \
 "
