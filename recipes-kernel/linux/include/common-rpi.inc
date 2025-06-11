@@ -3,8 +3,6 @@ require recipes-bsp/common/raspberrypi-firmware.inc
 DEPENDS += "rpi-bootfiles u-boot rpi-u-boot-scr rpi-cmdline rpi-config"
 
 
-RPI_USE_U_BOOT= "1"
-
 SRCREV_rpilinux = "ce20a8fdbf5891ae7e85f9b8c50231530113f4d5"
 
 SRC_URI = "\
