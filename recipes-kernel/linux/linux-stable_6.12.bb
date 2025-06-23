@@ -1,4 +1,4 @@
-FILESEXTRAPATHS:append := "${THISDIR}/files:"
+FILESEXTRAPATHS:append := "${THISDIR}/files:${THISDIR}/${PN}:"
 
 SUMMARY = "Linux kernel"
 SECTION = "kernel"
@@ -10,7 +10,7 @@ COMPATIBLE_MACHINE = "qemuarm|rpi"
 
 
 require recipes-kernel/linux/linux-yocto.inc
-include include/${MACHINE}.inc
+include ${PN}/include/${MACHINE}.inc
 
 
 KBRANCH = "linux-6.12.y"
