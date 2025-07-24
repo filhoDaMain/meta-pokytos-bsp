@@ -34,3 +34,7 @@ SRC_URI += "\
     git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git;protocol=https;name=machine;branch=${KBRANCH} \
     git://git.yoctoproject.org/yocto-kernel-cache;protocol=https;type=kmeta;name=meta;branch=${KMETABRANCH};destsuffix=${KMETA} \
 "
+
+# Patch kernel config for kernel debugging support
+# //TODO - might be wiser to move kernel conf fragments into machine specific directories!
+SRC_URI:append = "${@bb.utils.contains('KERNEL_DEBUG', '1', 'file://debug.cfg', '', d)}"
