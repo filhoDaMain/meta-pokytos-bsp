@@ -43,4 +43,4 @@ FILES:${PN} = "\
     ${nonarch_base_libdir}/firmware/brcm/BCM-0bb4-0306.hcd \
 "
 
-require include/${MACHINE}.inc
+include include/${MACHINE}.inc
