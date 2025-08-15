@@ -14,6 +14,7 @@ KBRANCH = "linux-6.12.y"
 KMETA = "kernel-meta"
 KMETABRANCH = "yocto-6.12"
 SRCREV_meta = "f517f6553a2e35532b0c3d4fb53cba43781ac567"
+SRCREV_FORMAT = "machine_meta"
 
 SRC_URI += "\
     git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git;protocol=https;name=machine;branch=${KBRANCH} \

@@ -8,3 +8,7 @@ KERNEL_DEVICETREE = "broadcom/bcm2837-rpi-3-a-plus.dtb"
 SRC_URI += "\
     file://smp.cfg \
 "
+
+SRC_URI:append:developer = "\
+    file://debug.cfg \
+"
