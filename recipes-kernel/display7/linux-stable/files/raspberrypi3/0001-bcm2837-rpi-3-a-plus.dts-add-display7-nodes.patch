@@ -1,0 +1,37 @@
+From 68ba6a982544d42406db6311b0fc6765c3a58dc6 Mon Sep 17 00:00:00 2001
+From: OpenEmbedded <oe.patch@oe>
+Date: Sat, 16 Aug 2025 14:43:58 +0100
+Subject: [PATCH] bcm2837-rpi-3-a-plus.dts: add display7 nodes
+
+---
+ .../boot/dts/broadcom/bcm2837-rpi-3-a-plus.dts   | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
+
+diff --git a/arch/arm/boot/dts/broadcom/bcm2837-rpi-3-a-plus.dts b/arch/arm/boot/dts/broadcom/bcm2837-rpi-3-a-plus.dts
+index 3548306dfbcb..de544ce27fce 100644
+--- a/arch/arm/boot/dts/broadcom/bcm2837-rpi-3-a-plus.dts
++++ b/arch/arm/boot/dts/broadcom/bcm2837-rpi-3-a-plus.dts
+@@ -19,6 +19,23 @@ memory@0 {
+ 		device_type = "memory";
+ 		reg = <0 0x20000000>;
+ 	};
++
++	display7 {
++		compatible = "filhodamain,display7";
++		status = "okay";
++		/* 7 Segment Display #1 */
++		display_1 {
++			label = "disp1";
++			disp1-gpios = <&gpio 27 GPIO_ACTIVE_HIGH>,	/* segment A */
++				<&gpio 17 GPIO_ACTIVE_HIGH>,	/* segment B */
++				<&gpio 5 GPIO_ACTIVE_HIGH>,	/* segment C */
++				<&gpio 25 GPIO_ACTIVE_HIGH>,	/* segment D */
++				<&gpio 24 GPIO_ACTIVE_HIGH>,	/* segment E */
++				<&gpio 22 GPIO_ACTIVE_HIGH>,	/* segment F */
++				<&gpio 23 GPIO_ACTIVE_HIGH>,	/* segment G */
++				<&gpio 6 GPIO_ACTIVE_HIGH>;	/* DP */
++		};
++	};
+ };
+ 
+ &firmware {
