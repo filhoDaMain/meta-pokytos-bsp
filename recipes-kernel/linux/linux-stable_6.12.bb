@@ -8,8 +8,8 @@ FILESEXTRAPATHS:append := "${THISDIR}/${PN}:"
 
 # Local defconfig to use. Fetched in machine specific .inc file.
 CUSTOM_KERNEL_CONFIG = "defconfig"
-LINUX_VERSION = "6.12.28"
-SRCREV_machine = "f08cdc6cc92e3d23a05745f0f12f8caa348a27b4"
+LINUX_VERSION = "6.12.54"
+SRCREV_machine = "c1859a8cfe840386e199c43d5eda79cc692009e4"
 KBRANCH = "linux-6.12.y"
 KMETA = "kernel-meta"
 KMETABRANCH = "yocto-6.12"
@@ -22,7 +22,7 @@ SRC_URI += "\
 "
 
 # Machine specific configurations
-include ${PN}/include/${MACHINE}.inc
+include ${PN}/${MACHINE}.inc
 
 # Unset any possible assignement to KBUILD_DEFCONFIG from another layer,
 # to be sure we use our CUSTOM_KERNEL_CONFIG configuration
