@@ -1,4 +1,4 @@
-FILESEXTRAPATHS:append := "${THISDIR}/files/rpi/:"
+FILESEXTRAPATHS:append := "${THISDIR}/files/${MACHINE}/:"
 
 python __anonymous() {
     if 'developer' not in d.getVar('MACHINEOVERRIDES').split(':'):

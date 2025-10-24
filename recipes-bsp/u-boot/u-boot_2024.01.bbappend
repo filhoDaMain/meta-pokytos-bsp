@@ -1,2 +1,2 @@
 FILESEXTRAPATHS:append := "${THISDIR}/files:"
-include ${PN}/include/${SOC_FAMILY}.inc
+include ${PN}/${MACHINE}.inc
