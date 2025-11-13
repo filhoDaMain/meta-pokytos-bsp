@@ -1,0 +1,22 @@
+From d9e09186482e881ac6db3891312f89508ed97d8c Mon Sep 17 00:00:00 2001
+From: filhoDaMain <temprilho93@gmail.com>
+Date: Tue, 11 Nov 2025 20:45:12 +0000
+Subject: [PATCH] orangepi_zero3_defconfig: enable boot delay
+Upstream-Status: Inappropriate [oe specific]
+
+---
+ configs/orangepi_zero3_defconfig | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/configs/orangepi_zero3_defconfig b/configs/orangepi_zero3_defconfig
+index 5a019fed84b..090a7bca635 100644
+--- a/configs/orangepi_zero3_defconfig
++++ b/configs/orangepi_zero3_defconfig
+@@ -1,6 +1,7 @@
+ CONFIG_ARM=y
+ CONFIG_ARCH_SUNXI=y
+ CONFIG_DEFAULT_DEVICE_TREE="sun50i-h618-orangepi-zero3"
++CONFIG_BOOTDELAY=5
+ CONFIG_SPL=y
+ CONFIG_DRAM_SUN50I_H616_DX_ODT=0x07070707
+ CONFIG_DRAM_SUN50I_H616_DX_DRI=0x0e0e0e0e
