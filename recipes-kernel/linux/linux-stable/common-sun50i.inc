@@ -1,4 +1,4 @@
-FILESEXTRAPATHS:append := "${THISDIR}/files/sun50i/:"
+FILESEXTRAPATHS:append := "${THISDIR}/files/sun50i/:${TOPDIR}/../meta-sunxi/recipes-kernel/linux/linux-mainline/:"
 
 
 require recipes-kernel/linux/linux-yocto.inc
