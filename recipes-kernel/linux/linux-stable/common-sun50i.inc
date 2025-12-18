@@ -1,5 +1,4 @@
-FILESEXTRAPATHS:append := "${THISDIR}/files/sun50i/:${TOPDIR}/../meta-sunxi/recipes-kernel/linux/linux-mainline/:"
-
+FILESEXTRAPATHS:append := "${THISDIR}:${THISDIR}/files/sun50i/:"
 
 require recipes-kernel/linux/linux-yocto.inc
 unset LINUX_VERSION_EXTENSION

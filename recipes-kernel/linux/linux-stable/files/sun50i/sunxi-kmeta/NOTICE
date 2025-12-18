@@ -1,0 +1,90 @@
+This folder is taken from from meta-sunxi/recipes-kernel/linux/linux-mainline/sunxi-kmeta,
+scarthgap branch from meta-sunxi repo and licensed by its authors under the MIT License.
+(https://github.com/linux-sunxi/meta-sunxi/tree/scarthgap)
+
+The following changes were applied to make the original uwe5622 patches compatible with linux-stable
+version 6.12
+
+#####
+
+diff --git a/recipes-kernel/linux/linux-mainline/sunxi-kmeta/bsp/uwe5622/0001-drv-fix-MAC-address-for-UWE5622.patch b/recipes-kernel/linux/linux-mainline/sunxi-kmeta/bsp/uwe5622/0001-drv-fix-MAC-address-for-UWE5622.patch
+index db4bbe0..3e8f100 100644
+--- a/recipes-kernel/linux/linux-mainline/sunxi-kmeta/bsp/uwe5622/0001-drv-fix-MAC-address-for-UWE5622.patch
++++ b/recipes-kernel/linux/linux-mainline/sunxi-kmeta/bsp/uwe5622/0001-drv-fix-MAC-address-for-UWE5622.patch
+@@ -24,8 +24,8 @@ index cadd4a820..605e4d2ba 100644
+  source "drivers/misc/uacce/Kconfig"
+  source "drivers/misc/pvpanic/Kconfig"
+  source "drivers/misc/mchp_pci1xxxx/Kconfig"
++ source "drivers/misc/keba/Kconfig"
+ +source "drivers/misc/sunxi-addr/Kconfig"
+- endmenu
+ diff --git a/drivers/misc/Makefile b/drivers/misc/Makefile
+ index f2a4d1ff6..06e857d70 100644
+ --- a/drivers/misc/Makefile
+diff --git a/recipes-kernel/linux/linux-mainline/sunxi-kmeta/bsp/uwe5622/uwe5622-allwinner-v6.3.patch b/recipes-kernel/linux/linux-mainline/sunxi-kmeta/bsp/uwe5622/uwe5622-allwinner-v6.3.patch
+index 43d7eb9..d3bf372 100644
+--- a/recipes-kernel/linux/linux-mainline/sunxi-kmeta/bsp/uwe5622/uwe5622-allwinner-v6.3.patch
++++ b/recipes-kernel/linux/linux-mainline/sunxi-kmeta/bsp/uwe5622/uwe5622-allwinner-v6.3.patch
+@@ -2070,7 +2070,7 @@ index 000000000000..0f90a758b7bc
+ +}
+ +#endif
+ +
+-+static int  mtty_remove(struct platform_device *pdev)
+++static void  mtty_remove(struct platform_device *pdev)
+ +{
+ +      struct mtty_device *mtty = platform_get_drvdata(pdev);
+ +
+@@ -2089,7 +2089,7 @@ index 000000000000..0f90a758b7bc
+ +//#endif
+ +      bluesleep_exit();
+ +
+-+      return 0;
+++      return;
+ +}
+ +
+ +static const struct of_device_id mtty_match_table[] = {
+@@ -156883,7 +156883,7 @@ index 000000000000..57cf1a898fb9
+ +      return 0;
+ +}
+ +
+-+static int  marlin_remove(struct platform_device *pdev)
+++static void  marlin_remove(struct platform_device *pdev)
+ +{
+ +#if (defined(CONFIG_BT_WAKE_HOST_EN) && defined(CONFIG_AW_BOARD))
+ +      marlin_unregistsr_bt_wake();
+@@ -156924,7 +156924,7 @@ index 000000000000..57cf1a898fb9
+ +
+ +      WCN_INFO("marlin_remove ok!\n");
+ +
+-+      return 0;
+++      return;
+ +}
+ +
+ +static void marlin_shutdown(struct platform_device *pdev)
+@@ -185549,7 +185549,7 @@ index 000000000000..8a3081fb819c
+ +              else
+ +                      wl_err("%s, ch is null!\n", __func__);
+ +#if (LINUX_VERSION_CODE >= KERNEL_VERSION(5,19, 2))
+-+              cfg80211_ch_switch_notify(vif->ndev, &chandef, 0, 0);
+++              cfg80211_ch_switch_notify(vif->ndev, &chandef,0);
+ +#else
+ +              cfg80211_ch_switch_notify(vif->ndev, &chandef);
+ +#endif
+@@ -208997,7 +208997,7 @@ index 000000000000..a4ef854b62e6
+ +      return ret;
+ +}
+ +
+-+static int sprdwl_remove(struct platform_device *pdev)
+++static void sprdwl_remove(struct platform_device *pdev)
+ +{
+ +      struct sprdwl_intf *intf = platform_get_drvdata(pdev);
+ +      struct sprdwl_priv *priv = intf->priv;
+@@ -209017,7 +209017,7 @@ index 000000000000..a4ef854b62e6
+ +      stop_marlin(MARLIN_WIFI);
+ +      wl_info("%s\n", __func__);
+ +
+-+      return 0;
+++      return;
+ +}
+ +
+ +static const struct of_device_id sprdwl_of_match[] = {
