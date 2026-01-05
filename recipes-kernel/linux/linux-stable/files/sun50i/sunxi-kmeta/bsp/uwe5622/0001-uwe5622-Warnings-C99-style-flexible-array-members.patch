@@ -1,0 +1,460 @@
+From f680acd32d51e02ff929fee50a8717f5e11bca20 Mon Sep 17 00:00:00 2001
+From: OpenEmbedded <oe.patch@oe>
+Date: Mon, 5 Jan 2026 19:49:22 +0000
+Subject: [PATCH] uwe5622: Warnings: C99-style flexible array members
+
+Fix warnings in linux 6.12 by complying with C99 style of flexible array
+members
+
+Based on comment from:
+https://lkml.org/lkml/2024/1/29/757
+---
+ .../wireless/uwe5622/unisocwcn/pcie/ioctl.h   |  2 +-
+ .../uwe5622/unisocwcn/platform/wcn_dump.c     |  2 +-
+ .../unisocwcn/platform/wcn_dump_integrate.c   |  2 +-
+ .../wireless/uwe5622/unisocwcn/usb/wcn_usb.c  |  2 +-
+ .../uwe5622/unisocwcn/usb/wcn_usb_rx_tx.c     |  2 +-
+ .../uwe5622/unisocwcn/usb/wcn_usb_test.c      |  2 +-
+ .../net/wireless/uwe5622/unisocwifi/cmdevt.c  |  4 +--
+ .../net/wireless/uwe5622/unisocwifi/cmdevt.h  | 32 +++++++++----------
+ .../wireless/uwe5622/unisocwifi/edma_test.c   |  2 +-
+ drivers/net/wireless/uwe5622/unisocwifi/msg.h |  4 +--
+ drivers/net/wireless/uwe5622/unisocwifi/nan.h |  2 +-
+ .../net/wireless/uwe5622/unisocwifi/reorder.h |  2 +-
+ drivers/net/wireless/uwe5622/unisocwifi/rtt.c |  6 ++--
+ drivers/net/wireless/uwe5622/unisocwifi/rtt.h |  4 +--
+ .../net/wireless/uwe5622/unisocwifi/rx_msg.h  |  4 +--
+ .../net/wireless/uwe5622/unisocwifi/sprdwl.h  |  2 +-
+ .../net/wireless/uwe5622/unisocwifi/vendor.h  |  2 +-
+ .../net/wireless/uwe5622/unisocwifi/wl_intf.h |  2 +-
+ .../net/wireless/uwe5622/unisocwifi/work.h    |  2 +-
+ 19 files changed, 40 insertions(+), 40 deletions(-)
+
+diff --git a/drivers/net/wireless/uwe5622/unisocwcn/pcie/ioctl.h b/drivers/net/wireless/uwe5622/unisocwcn/pcie/ioctl.h
+index cb932c7c343d..ceb2ff15b9db 100644
+--- a/drivers/net/wireless/uwe5622/unisocwcn/pcie/ioctl.h
++++ b/drivers/net/wireless/uwe5622/unisocwcn/pcie/ioctl.h
+@@ -56,7 +56,7 @@ struct pcicmd {
+ struct tlv {
+ 	unsigned short t;
+ 	unsigned short l;
+-	unsigned char v[0];
++	unsigned char v[];
+ };
+ 
+ struct arg_t {
+diff --git a/drivers/net/wireless/uwe5622/unisocwcn/platform/wcn_dump.c b/drivers/net/wireless/uwe5622/unisocwcn/platform/wcn_dump.c
+index 5c432c77ce9a..387b9b70a1ba 100644
+--- a/drivers/net/wireless/uwe5622/unisocwcn/platform/wcn_dump.c
++++ b/drivers/net/wireless/uwe5622/unisocwcn/platform/wcn_dump.c
+@@ -453,7 +453,7 @@ struct wcn_dump_head_info {
+ 	/* used to check if dump is full */
+ 	__le32 file_size;
+ 	u8 reserv[8];
+-	struct wcn_dump_section_info section[0];
++	struct wcn_dump_section_info section[];
+ } __packed;
+ 
+ static int wcn_fill_dump_head_info(struct wcn_dump_mem_reg *mem_cfg, int cnt)
+diff --git a/drivers/net/wireless/uwe5622/unisocwcn/platform/wcn_dump_integrate.c b/drivers/net/wireless/uwe5622/unisocwcn/platform/wcn_dump_integrate.c
+index 43d9c8467f6a..63aef0524ed1 100644
+--- a/drivers/net/wireless/uwe5622/unisocwcn/platform/wcn_dump_integrate.c
++++ b/drivers/net/wireless/uwe5622/unisocwcn/platform/wcn_dump_integrate.c
+@@ -133,7 +133,7 @@ struct wcn_dump_head_info {
+ 	/* used to check if dump is full */
+ 	__le32 file_size;
+ 	u8 reserv[8];
+-	struct wcn_dump_section_info section[0];
++	struct wcn_dump_section_info section[];
+ } __packed;
+ 
+ static int wcn_fill_dump_head_info(struct wcn_dump_mem_reg *mem_cfg, int cnt)
+diff --git a/drivers/net/wireless/uwe5622/unisocwcn/usb/wcn_usb.c b/drivers/net/wireless/uwe5622/unisocwcn/usb/wcn_usb.c
+index 089066544dec..aa4ae55c3f83 100644
+--- a/drivers/net/wireless/uwe5622/unisocwcn/usb/wcn_usb.c
++++ b/drivers/net/wireless/uwe5622/unisocwcn/usb/wcn_usb.c
+@@ -20,7 +20,7 @@
+ static struct mchn_ops_t *virtual_pop_ventor[4];
+ struct virtual_buf {
+ 	unsigned char ventor_id;
+-	char buf[0];
++	char buf[];
+ };
+ #define virtual_to_head(x) ((char *)x - sizeof(unsigned char))
+ 
+diff --git a/drivers/net/wireless/uwe5622/unisocwcn/usb/wcn_usb_rx_tx.c b/drivers/net/wireless/uwe5622/unisocwcn/usb/wcn_usb_rx_tx.c
+index 28ade1f394ae..bab5f44a3674 100644
+--- a/drivers/net/wireless/uwe5622/unisocwcn/usb/wcn_usb_rx_tx.c
++++ b/drivers/net/wireless/uwe5622/unisocwcn/usb/wcn_usb_rx_tx.c
+@@ -560,7 +560,7 @@ struct {
+ 
+ struct wcn_usb_big_men {
+ 	struct list_head list;
+-	char buf[0];
++	char buf[];
+ };
+ 
+ #define LOCK_FREE_BIG_BUF(at) \
+diff --git a/drivers/net/wireless/uwe5622/unisocwcn/usb/wcn_usb_test.c b/drivers/net/wireless/uwe5622/unisocwcn/usb/wcn_usb_test.c
+index eab457c09f04..0a76e47ef20c 100644
+--- a/drivers/net/wireless/uwe5622/unisocwcn/usb/wcn_usb_test.c
++++ b/drivers/net/wireless/uwe5622/unisocwcn/usb/wcn_usb_test.c
+@@ -376,7 +376,7 @@ struct chnmg {
+ 	struct proc_dir_entry *print_level;
+ 	struct proc_dir_entry *channel_debug;
+ 	int num_channels;
+-	struct channel *channel[0];
++	struct channel *channel[];
+ };
+ 
+ static void channel_destroy(struct channel *channel)
+diff --git a/drivers/net/wireless/uwe5622/unisocwifi/cmdevt.c b/drivers/net/wireless/uwe5622/unisocwifi/cmdevt.c
+index d0469a292631..f5abb7a3c10a 100644
+--- a/drivers/net/wireless/uwe5622/unisocwifi/cmdevt.c
++++ b/drivers/net/wireless/uwe5622/unisocwifi/cmdevt.c
+@@ -1383,7 +1383,7 @@ int sprdwl_scan(struct sprdwl_priv *priv, u8 vif_ctx_id,
+ 
+ 	struct sprdwl_5g_chn {
+ 		u16 n_5g_chn;
+-		u16 chns[0];
++		u16 chns[];
+ 	} *ext_5g;
+ 
+ 	chns_len_5g = chn_count_5g * sizeof(*chns_5g);
+@@ -3686,7 +3686,7 @@ int sprdwl_set_wowlan(struct sprdwl_priv *priv, int subcmd, void *pad, int pad_l
+ 	struct wowlan_cmd {
+ 		u8 sub_cmd_id;
+ 		u8 pad_len;
+-		char pad[0];
++		char pad[];
+ 	} *cmd;
+ 
+ 	if (priv == NULL)
+diff --git a/drivers/net/wireless/uwe5622/unisocwifi/cmdevt.h b/drivers/net/wireless/uwe5622/unisocwifi/cmdevt.h
+index ce8c774e8968..6e75904c5225 100644
+--- a/drivers/net/wireless/uwe5622/unisocwifi/cmdevt.h
++++ b/drivers/net/wireless/uwe5622/unisocwifi/cmdevt.h
+@@ -372,7 +372,7 @@ struct sprdwl_cmd_add_key {
+ 	u8 keyseq[16];
+ 	u8 cypher_type;
+ 	u8 key_len;
+-	u8 value[0];
++	u8 value[];
+ } __packed;
+ 
+ struct sprdwl_cmd_del_key {
+@@ -402,13 +402,13 @@ struct sprdwl_cmd_set_ie {
+ #define	SPRDWL_IE_BEACON_TAIL		6
+ 	u8 type;
+ 	__le16 len;
+-	u8 data[0];
++	u8 data[];
+ } __packed;
+ 
+ /* WIFI_CMD_START_AP */
+ struct sprdwl_cmd_start_ap {
+ 	__le16 len;
+-	u8 value[0];
++	u8 value[];
+ } __packed;
+ 
+ /* WIFI_CMD_DEL_STATION */
+@@ -454,7 +454,7 @@ struct sprdwl_cmd_scan {
+ 	__le32 channels;	/* One bit for one channel */
+ 	__le32 reserved;
+ 	u16 ssid_len;
+-	u8 ssid[0];
++	u8 ssid[];
+ } __packed;
+ 
+ /* WIFI_CMD_SCHED_SCAN */
+@@ -549,7 +549,7 @@ struct sprdwl_cmd_mgmt_tx {
+ 	__le32 wait;		/* wait time */
+ 	__le64 cookie;		/* cookie */
+ 	__le16 len;		/* mac length */
+-	u8 value[0];		/* mac */
++	u8 value[];		/* mac */
+ } __packed;
+ 
+ /* WIFI_CMD_REGISTER_FRAME */
+@@ -574,7 +574,7 @@ struct sprdwl_cmd_cqm_rssi {
+ struct sprdwl_cmd_roam_offload_data {
+ 	u8 type;
+ 	u8 len;
+-	u8 value[0];
++	u8 value[];
+ } __packed;
+ 
+ struct sprdwl_cmd_tdls_mgmt {
+@@ -604,7 +604,7 @@ struct sprdwl_cmd_tdls_mgmt {
+ 		} __packed discover_resp;
+ 	} u;
+ 	__le32 len;
+-	u8 frame[0];
++	u8 frame[];
+ } __packed;
+ 
+ struct sprdwl_cmd_tdls {
+@@ -613,13 +613,13 @@ struct sprdwl_cmd_tdls {
+ 	u8 initiator;
+ 	u8 rsvd;
+ 	u8 paylen;
+-	u8 payload[0];
++	u8 payload[];
+ } __packed;
+ 
+ struct sprdwl_cmd_blacklist {
+ 	u8 sub_type;
+ 	u8 num;
+-	u8 mac[0];
++	u8 mac[];
+ } __packed;
+ 
+ struct sprdwl_cmd_tdls_channel_switch {
+@@ -631,7 +631,7 @@ struct sprdwl_cmd_tdls_channel_switch {
+ struct sprdwl_cmd_set_mac_addr {
+ 	u8 sub_type;
+ 	u8 num;
+-	u8 mac[0];
++	u8 mac[];
+ } __packed;
+ 
+ struct sprdwl_cmd_rsp_state_code {
+@@ -714,7 +714,7 @@ struct sprdwl_event_mgmt_frame {
+ 	u8 reserved;
+ 	u8 bssid[ETH_ALEN];	/* roaming frame */
+ 	__le16 len;
+-	u8 data[0];
++	u8 data[];
+ } __packed;
+ 
+ /* WIFI_EVENT_SCAN_COMP */
+@@ -737,7 +737,7 @@ struct sprdwl_event_mgmt_tx_status {
+ 	__le64 cookie;		/* cookie */
+ 	u8 ack;			/* status */
+ 	__le16 len;		/* frame len */
+-	u8 buf[0];		/* mgmt frame */
++	u8 buf[];		/* mgmt frame */
+ } __packed;
+ 
+ /* WIFI_EVENT_NEW_STATION  */
+@@ -745,7 +745,7 @@ struct sprdwl_event_new_station {
+ 	u8 is_connect;
+ 	u8 mac[ETH_ALEN];
+ 	__le16 ie_len;
+-	u8 ie[0];
++	u8 ie[];
+ } __packed;
+ 
+ /* WIFI_EVENT_MIC_FAIL */
+@@ -772,7 +772,7 @@ struct sprdwl_event_tdls {
+ struct sprd_cmd_gscan_header {
+ 	u16 subcmd;
+ 	u16 data_len;
+-	u8 data[0];
++	u8 data[];
+ } __packed;
+ 
+ struct sprdwl_llc_hdr {
+@@ -898,7 +898,7 @@ struct sprdwl_priv;
+ struct sprdwl_tlv_data {
+ 	u16 type;
+ 	u16 len;
+-	u8 data[0];
++	u8 data[];
+ } __packed;
+ 
+ /* TLV rbuf size */
+@@ -938,7 +938,7 @@ struct sprdwl_cmd_packet_offload {
+ 	u8 enable;
+ 	u32 period;
+ 	u16 len;
+-	u8 data[0];
++	u8 data[];
+ } __packed;
+ 
+ int sprdwl_cmd_rsp(struct sprdwl_priv *priv, u8 *msg);
+diff --git a/drivers/net/wireless/uwe5622/unisocwifi/edma_test.c b/drivers/net/wireless/uwe5622/unisocwifi/edma_test.c
+index f45bc8043f9c..8f2e12efb78b 100644
+--- a/drivers/net/wireless/uwe5622/unisocwifi/edma_test.c
++++ b/drivers/net/wireless/uwe5622/unisocwifi/edma_test.c
+@@ -35,7 +35,7 @@ static unsigned int chn_tx_fail[8];
+ struct edma_test_cmd_header {
+ 	u16 subcmd;
+ 	u16 len;
+-	u8 data[0];
++	u8 data[];
+ } __packed;
+ 
+ struct task_struct *task_array[PCIE_CHANNEL_PAIR];
+diff --git a/drivers/net/wireless/uwe5622/unisocwifi/msg.h b/drivers/net/wireless/uwe5622/unisocwifi/msg.h
+index 67a4b474e74e..799344f43fb4 100644
+--- a/drivers/net/wireless/uwe5622/unisocwifi/msg.h
++++ b/drivers/net/wireless/uwe5622/unisocwifi/msg.h
+@@ -94,12 +94,12 @@ struct sprdwl_cmd_hdr {
+ 	s8 status;
+ 	u8 rsp_cnt;
+ 	u8 reserv[2];
+-	u8 paydata[0];
++	u8 paydata[];
+ } __packed;
+ 
+ struct sprdwl_addr_hdr {
+ 	struct sprdwl_common_hdr common;
+-	u8 paydata[0];
++	u8 paydata[];
+ } __packed;
+ 
+ #define SPRDWL_GET_CMD_PAYDATA(msg) \
+diff --git a/drivers/net/wireless/uwe5622/unisocwifi/nan.h b/drivers/net/wireless/uwe5622/unisocwifi/nan.h
+index fd6d980b4d78..b9187f7ab2bb 100644
+--- a/drivers/net/wireless/uwe5622/unisocwifi/nan.h
++++ b/drivers/net/wireless/uwe5622/unisocwifi/nan.h
+@@ -291,7 +291,7 @@ struct nan_capa {
+ 
+ struct nan_cmd_header {
+ 	u16 data_len;
+-	u8 data[0];
++	u8 data[];
+ } __packed;
+ 
+ /* cmd handler*/
+diff --git a/drivers/net/wireless/uwe5622/unisocwifi/reorder.h b/drivers/net/wireless/uwe5622/unisocwifi/reorder.h
+index f6142f96944c..c763e77544a0 100644
+--- a/drivers/net/wireless/uwe5622/unisocwifi/reorder.h
++++ b/drivers/net/wireless/uwe5622/unisocwifi/reorder.h
+@@ -36,7 +36,7 @@ struct rx_ba_node_desc {
+ 	unsigned int pn_l;
+ 	unsigned char reset_pn;
+ 	unsigned int index_mask;
+-	struct rx_ba_pkt reorder_buffer[0];
++	struct rx_ba_pkt reorder_buffer[];
+ };
+ 
+ struct rx_ba_node {
+diff --git a/drivers/net/wireless/uwe5622/unisocwifi/rtt.c b/drivers/net/wireless/uwe5622/unisocwifi/rtt.c
+index 9f0e9f2d3dd0..0b39d082f2e5 100644
+--- a/drivers/net/wireless/uwe5622/unisocwifi/rtt.c
++++ b/drivers/net/wireless/uwe5622/unisocwifi/rtt.c
+@@ -121,7 +121,7 @@ struct ftm_per_dest_res {
+ 	/* actual received ftm per burst */
+ 	u8 actual_ftm_per_burst;
+ 	u8 reserved0[7];
+-	struct sprdwl_responder_ftm_res responder_ftm_res[0];
++	struct sprdwl_responder_ftm_res responder_ftm_res[];
+ } __packed;
+ 
+ struct ftm_dest_info {
+@@ -145,13 +145,13 @@ struct ftm_session_start {
+ 	u8 aoa_type;
+ 	__le16 num_of_dest;
+ 	u8 reserved[4];
+-	struct ftm_dest_info dest_info[0];
++	struct ftm_dest_info dest_info[];
+ } __packed;
+ 
+ struct sprdwl_cmd_rtt {
+ 	u8 sub_cmd;
+ 	__le16 len;
+-	u8 data[0];
++	u8 data[];
+ } __packed;
+ 
+ static const struct
+diff --git a/drivers/net/wireless/uwe5622/unisocwifi/rtt.h b/drivers/net/wireless/uwe5622/unisocwifi/rtt.h
+index b58deeb6dcfd..32b88b8d72f0 100644
+--- a/drivers/net/wireless/uwe5622/unisocwifi/rtt.h
++++ b/drivers/net/wireless/uwe5622/unisocwifi/rtt.h
+@@ -427,7 +427,7 @@ struct sprdwl_ftm_session_request {
+ 	u64 session_cookie;
+ 	u32 n_peers;
+ 	/* keep last, variable size according to n_peers */
+-	struct sprdwl_ftm_meas_peer_info peers[0];
++	struct sprdwl_ftm_meas_peer_info peers[];
+ };
+ 
+ /* single measurement for a peer */
+@@ -449,7 +449,7 @@ struct sprdwl_ftm_peer_meas_res {
+ 	u8 lcr_length;
+ 	u32 n_meas;
+ 	/* keep last, variable size according to n_meas */
+-	struct sprdwl_ftm_peer_meas meas[0];
++	struct sprdwl_ftm_peer_meas meas[];
+ };
+ 
+ /* private data related to FTM. Part of the priv structure */
+diff --git a/drivers/net/wireless/uwe5622/unisocwifi/rx_msg.h b/drivers/net/wireless/uwe5622/unisocwifi/rx_msg.h
+index 876b523dfd71..236837c793f0 100644
+--- a/drivers/net/wireless/uwe5622/unisocwifi/rx_msg.h
++++ b/drivers/net/wireless/uwe5622/unisocwifi/rx_msg.h
+@@ -73,13 +73,13 @@ struct sprdwl_addr_trans_value {
+ #define SPRDWL_FLUSH_BUFFER 3
+ 	unsigned char type;
+ 	unsigned char num;
+-	unsigned char address[0][5];
++	unsigned char address[][5];
+ } __packed;
+ 
+ struct sprdwl_addr_trans {
+ 	unsigned int timestamp;
+ 	unsigned char tlv_num;
+-	struct sprdwl_addr_trans_value value[0];
++	struct sprdwl_addr_trans_value value[];
+ } __packed;
+ 
+ /* NOTE: MUST not modify, defined by HW */
+diff --git a/drivers/net/wireless/uwe5622/unisocwifi/sprdwl.h b/drivers/net/wireless/uwe5622/unisocwifi/sprdwl.h
+index a1b2f8544ec4..ffbc9c83ef2e 100644
+--- a/drivers/net/wireless/uwe5622/unisocwifi/sprdwl.h
++++ b/drivers/net/wireless/uwe5622/unisocwifi/sprdwl.h
+@@ -75,7 +75,7 @@ struct sprdwl_mc_filter {
+ 	bool mc_change;
+ 	u8 subtype;
+ 	u8 mac_num;
+-	u8 mac_addr[0];
++	u8 mac_addr[];
+ };
+ 
+ struct android_wifi_priv_cmd {
+diff --git a/drivers/net/wireless/uwe5622/unisocwifi/vendor.h b/drivers/net/wireless/uwe5622/unisocwifi/vendor.h
+index 5087696890c6..18f3992db56c 100644
+--- a/drivers/net/wireless/uwe5622/unisocwifi/vendor.h
++++ b/drivers/net/wireless/uwe5622/unisocwifi/vendor.h
+@@ -1571,7 +1571,7 @@ struct sprdwl_epno_results {
+ 	u64 boot_time;
+ 	u8 request_id;
+ 	u8 nr_scan_results;
+-	struct sprdwl_gscan_result results[0];
++	struct sprdwl_gscan_result results[];
+ } __packed;
+ 
+ struct wifi_ssid {
+diff --git a/drivers/net/wireless/uwe5622/unisocwifi/wl_intf.h b/drivers/net/wireless/uwe5622/unisocwifi/wl_intf.h
+index b159c685a5e0..ff50ef80799a 100644
+--- a/drivers/net/wireless/uwe5622/unisocwifi/wl_intf.h
++++ b/drivers/net/wireless/uwe5622/unisocwifi/wl_intf.h
+@@ -145,7 +145,7 @@ struct pcie_addr_buffer {
+ 		unsigned char buffer_type:1;
+ 		unsigned char buffer_inuse:1;
+ 	} buffer_ctrl;
+-	unsigned char pcie_addr[0][5];
++	unsigned char pcie_addr[][5];
+ } __packed;
+ 
+ struct txc_addr_buff {
+diff --git a/drivers/net/wireless/uwe5622/unisocwifi/work.h b/drivers/net/wireless/uwe5622/unisocwifi/work.h
+index 4e745903eedc..5278eed16cb4 100644
+--- a/drivers/net/wireless/uwe5622/unisocwifi/work.h
++++ b/drivers/net/wireless/uwe5622/unisocwifi/work.h
+@@ -50,7 +50,7 @@ struct sprdwl_work {
+ #define SPRDWL_WORK_VOWIFI_DATA_PROTECTION 18
+ 	u8 id;
+ 	u32 len;
+-	u8 data[0];
++	u8 data[];
+ };
+ 
+ struct sprdwl_reg_mgmt {
+-- 
+2.39.5
+

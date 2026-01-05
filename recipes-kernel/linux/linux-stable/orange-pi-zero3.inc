@@ -9,8 +9,9 @@ SRC_URI += "\
 "
 
 KERNEL_FEATURES:append = "\
-    bsp/uwe5622/uwe5622-6_6.scc \
+    bsp/uwe5622/uwe5622-6_12.scc \
 "
+
 
 SRC_URI += "\
     file://armbian-uwe5622/add-nodes-for-sunxi-info-sunxi-addr-and-sunxi-dump-reg.patch \

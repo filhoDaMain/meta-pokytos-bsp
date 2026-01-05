@@ -1,0 +1,43 @@
+From dee54b529ff601e19f772465a2ff534e55c9c85b Mon Sep 17 00:00:00 2001
+From: OpenEmbedded <oe.patch@oe>
+Date: Mon, 5 Jan 2026 23:15:30 +0000
+Subject: [PATCH] uwe5622: Warnings: set mac address properly
+
+Fix Warning "netdevice: wlan0: Incorrect netdev->dev_addr"
+
+Based on comment found in
+https://forum.armbian.com/topic/41734-propose-a-patch-to-make-uwe5622-driver-set-mac-address-properly/
+---
+ drivers/net/wireless/uwe5622/unisocwifi/main.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/net/wireless/uwe5622/unisocwifi/main.c b/drivers/net/wireless/uwe5622/unisocwifi/main.c
+index bf2ec6c29e8e..b83ab8e6f9a7 100644
+--- a/drivers/net/wireless/uwe5622/unisocwifi/main.c
++++ b/drivers/net/wireless/uwe5622/unisocwifi/main.c
+@@ -15,6 +15,7 @@
+  * GNU General Public License for more details.
+  */
+ 
++#include <linux/etherdevice.h>
+ #include "sprdwl.h"
+ #include "npi.h"
+ #include "cfg80211.h"
+@@ -944,12 +945,12 @@ static int sprdwl_set_mac(struct net_device *dev, void *addr)
+ 		if (!is_zero_ether_addr(sa->sa_data)) {
+ 			vif->has_rand_mac = true;
+ 			memcpy(vif->random_mac, sa->sa_data, ETH_ALEN);
+-			memcpy(dev->dev_addr, sa->sa_data, ETH_ALEN);
++			eth_hw_addr_set(dev, sa->sa_data);
+ 		} else {
+ 			vif->has_rand_mac = false;
+ 			netdev_info(dev, "need clear random mac for sta/softap mode\n");
+ 			memset(vif->random_mac, 0, ETH_ALEN);
+-			memcpy(dev->dev_addr, vif->mac, ETH_ALEN);
++			eth_hw_addr_set(dev, vif->mac);
+ 		}
+ 	}
+ 	/*return success to pass vts test*/
+-- 
+2.39.5
+
