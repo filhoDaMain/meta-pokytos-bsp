@@ -7,6 +7,17 @@ version 6.12
 
 #####
 
+diff --git a/recipes-kernel/linux/linux-stable/files/sun50i/sunxi-kmeta/bsp/uwe5622/uwe5622-6_12.scc b/recipes-kernel/linux/linux-stable/files/sun50i/sunxi-kmeta/bsp/uwe5622/uwe5622-6_12.scc
+new file mode 100644
+index 0000000..8b36348
+--- /dev/null
++++ b/recipes-kernel/linux/linux-stable/files/sun50i/sunxi-kmeta/bsp/uwe5622/uwe5622-6_12.scc
+@@ -0,0 +1,4 @@
++include uwe5622-6_6.scc
++
++patch 0001-uwe5622-Warnings-C99-style-flexible-array-members.patch
++patch 0002-uwe5622-Warnings-set-mac-address-properly.patch
+
 diff --git a/recipes-kernel/linux/linux-mainline/sunxi-kmeta/bsp/uwe5622/0001-drv-fix-MAC-address-for-UWE5622.patch b/recipes-kernel/linux/linux-mainline/sunxi-kmeta/bsp/uwe5622/0001-drv-fix-MAC-address-for-UWE5622.patch
 index db4bbe0..3e8f100 100644
 --- a/recipes-kernel/linux/linux-mainline/sunxi-kmeta/bsp/uwe5622/0001-drv-fix-MAC-address-for-UWE5622.patch
