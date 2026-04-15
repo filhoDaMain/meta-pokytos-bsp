@@ -1,10 +1,5 @@
-require common-rpi.inc
+require raspi3ap.inc
 
-# Enable multi-core
-SRC_URI += "\
-    file://smp.cfg \
-"
-
-SRC_URI:append:developer = "\
-    file://debug.cfg \
+SRC_URI:append = "\
+    file://virtio.cfg \
 "
