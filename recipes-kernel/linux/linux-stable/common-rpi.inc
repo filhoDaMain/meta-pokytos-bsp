@@ -1,4 +1,4 @@
-FILESEXTRAPATHS:append := "${THISDIR}/files/rpi/:${TOPDIR}/../meta-raspberrypi/recipes-kernel/linux/files/:"
+FILESEXTRAPATHS:append := "${THISDIR}/files/rpi/:${BSP_LAYER_RPI}/recipes-kernel/linux/files/:"
 
 
 # Common Build and boot definitions for all raspberries
