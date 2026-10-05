@@ -8,12 +8,12 @@ FILESEXTRAPATHS:append := "${THISDIR}/${PN}:"
 
 # Local defconfig to use. Fetched in machine specific .inc file.
 CUSTOM_KERNEL_CONFIG = "defconfig"
-LINUX_VERSION = "6.12.54"
-SRCREV_machine = "c1859a8cfe840386e199c43d5eda79cc692009e4"
+LINUX_VERSION = "6.12.112"
+SRCREV_machine = "7aba70ab2e8d8ab3cd45abcaa15e1119a00dc42a"
 KBRANCH = "linux-6.12.y"
 KMETA = "kernel-meta"
 KMETABRANCH = "yocto-6.12"
-SRCREV_meta = "f517f6553a2e35532b0c3d4fb53cba43781ac567"
+SRCREV_meta = "dc2f730835594adb136c5a7ec2dfe07b14432ccd"
 SRCREV_FORMAT = "machine_meta"
 
 SRC_URI += "\
