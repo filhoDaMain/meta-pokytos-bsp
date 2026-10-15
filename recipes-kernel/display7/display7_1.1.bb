@@ -15,6 +15,3 @@ SRC_URI = "\
 S = "${WORKDIR}/git"
 
 RPROVIDES:${PN} += "kernel-module-display7"
-
-# Enable auto-load for this out-of-tree module
-KERNEL_MODULE_AUTOLOAD += "${PN}"
