@@ -15,3 +15,4 @@ SRC_URI = "\
 S = "${WORKDIR}/git"
 
 RPROVIDES:${PN} += "kernel-module-display7"
+KERNEL_MODULE_AUTOLOAD += "${PN}"
