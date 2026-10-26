@@ -1,0 +1,76 @@
+From 44a200056c70961e2007cca79791b42e9787388b Mon Sep 17 00:00:00 2001
+From: "Andre Temprilho (filhoDaMain)" <temprilho93@gmail.com>
+Date: Sat, 24 Oct 2026 13:06:40 +0000
+Subject: [PATCH 2/2] hciattach: Fix compiler warnings
+
+---
+ hciattach.c          | 5 ++++-
+ hciattach_qualcomm.c | 2 +-
+ hciattach_sprd.c     | 1 +
+ hciattach_tialt.c    | 2 +-
+ 4 files changed, 7 insertions(+), 3 deletions(-)
+
+diff --git a/hciattach.c b/hciattach.c
+index 9e994f9..8742a8c 100644
+--- a/hciattach.c
++++ b/hciattach.c
+@@ -27,6 +27,9 @@
+ #include <config.h>
+ #endif
+ 
++// So that ppoll() is declared
++#define _GNU_SOURCE
++
+ #include <stdio.h>
+ #include <errno.h>
+ #include <fcntl.h>
+@@ -1195,7 +1198,7 @@ struct uart_t uart[] = {
+ //Realtek_add_end
+ 
+ 	{ "xradio",     0x0000, 0x0000, HCI_UART_H4, 115200, 1500000, 0, DISABLE_PM, NULL, xradio_init, xradio_post},
+-	{  "sprd",      0x0000, 0x0000, NULL, 115200, 1500000, FLOW_CTL, DISABLE_PM, NULL, sprd_init, sprd_post},
++	{  "sprd",      0x0000, 0x0000, 0, 115200, 1500000, FLOW_CTL, DISABLE_PM, NULL, sprd_init, sprd_post},
+ 
+ 	{ NULL, 0 }
+ };
+diff --git a/hciattach_qualcomm.c b/hciattach_qualcomm.c
+index 0e02e1e..af89d89 100644
+--- a/hciattach_qualcomm.c
++++ b/hciattach_qualcomm.c
+@@ -40,7 +40,7 @@
+ #include <sys/poll.h>
+ #include <sys/param.h>
+ #include <sys/ioctl.h>
+-
++#include <sys/uio.h>
+ #include <bluetooth/bluetooth.h>
+ #include <bluetooth/hci.h>
+ #include <bluetooth/hci_lib.h>
+diff --git a/hciattach_sprd.c b/hciattach_sprd.c
+index 612e324..39d9b3d 100755
+--- a/hciattach_sprd.c
++++ b/hciattach_sprd.c
+@@ -9,6 +9,7 @@
+ #include <stdint.h>
+ #include <sys/termios.h>
+ #include <sys/ioctl.h>
++#include <sys/uio.h>
+ #include <limits.h>
+ #include "hciattach.h"
+ 
+diff --git a/hciattach_tialt.c b/hciattach_tialt.c
+index c3caa49..b9f5d79 100644
+--- a/hciattach_tialt.c
++++ b/hciattach_tialt.c
+@@ -39,7 +39,7 @@
+ #include <sys/poll.h>
+ #include <sys/param.h>
+ #include <sys/ioctl.h>
+-
++#include <sys/uio.h>
+ #include <bluetooth/bluetooth.h>
+ #include <bluetooth/hci.h>
+ #include <bluetooth/hci_lib.h>
+-- 
+2.34.1
+

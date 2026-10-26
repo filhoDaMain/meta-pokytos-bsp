@@ -1367,6 +1367,10 @@ CONFIG_HAMRADIO=y
 #
 # CONFIG_AX25 is not set
 # CONFIG_CAN is not set
+
+#
+# Bluetooth device drivers
+#
 CONFIG_BT=m
 CONFIG_BT_BREDR=y
 # CONFIG_BT_RFCOMM is not set
@@ -1377,22 +1381,22 @@ CONFIG_BT_LE_L2CAP_ECRED=y
 # CONFIG_BT_MSFTEXT is not set
 # CONFIG_BT_AOSPEXT is not set
 CONFIG_BT_DEBUGFS=y
-
-#
-# Bluetooth device drivers
-#
-# CONFIG_BT_HCIBTUSB is not set
-# CONFIG_BT_HCIBTSDIO is not set
-# CONFIG_BT_HCIUART is not set
-# CONFIG_BT_HCIBCM203X is not set
-# CONFIG_BT_HCIBPA10X is not set
-# CONFIG_BT_HCIBFUSB is not set
-# CONFIG_BT_HCIVHCI is not set
-# CONFIG_BT_MRVL is not set
-# CONFIG_BT_MTKSDIO is not set
-# CONFIG_BT_MTKUART is not set
-# CONFIG_BT_VIRTIO is not set
-# CONFIG_BT_NXPUART is not set
+CONFIG_BT_BCM=m
+CONFIG_BT_HCIUART=m
+CONFIG_BT_HCIUART_SERDEV=y
+CONFIG_BT_HCIUART_H4=y
+# CONFIG_BT_HCIUART_NOKIA is not set
+# CONFIG_BT_HCIUART_BCSP is not set
+# CONFIG_BT_HCIUART_ATH3K is not set
+# CONFIG_BT_HCIUART_LL is not set
+# CONFIG_BT_HCIUART_3WIRE is not set
+# CONFIG_BT_HCIUART_INTEL is not set
+CONFIG_BT_HCIUART_BCM=y
+# CONFIG_BT_HCIUART_RTL is not set
+# CONFIG_BT_HCIUART_QCA is not set
+# CONFIG_BT_HCIUART_AG6XX is not set
+# CONFIG_BT_HCIUART_MRVL is not set
+# CONFIG_BT_HCIUART_AML is not set
 # end of Bluetooth device drivers
 
 # CONFIG_AF_RXRPC is not set
@@ -1756,7 +1760,7 @@ CONFIG_BLK_DEV_LOOP_MIN_COUNT=8
 # CONFIG_MISC_RTSX_USB is not set
 # CONFIG_UACCE is not set
 # CONFIG_PVPANIC is not set
-# CONFIG_SUNXI_ADDR_MGT is not set
+CONFIG_SUNXI_ADDR_MGT=m
 # end of Misc devices
 
 #

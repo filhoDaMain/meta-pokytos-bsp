@@ -1,0 +1,17 @@
+[Unit]
+Description=Bluetooth HCI Attach Service for /dev/ttyBT0
+ConditionPathExists=/dev/ttyBT0
+After=sysinit.target local-fs.target
+
+[Service]
+Type=forking
+ExecStartPre=/usr/sbin/rfkill unblock bluetooth
+ExecStart=/usr/bin/hciattach_opi -s 1500000 /dev/ttyBT0 sprd
+ExecStartPost=/bin/sleep 1
+ExecStartPost=/usr/bin/hciconfig hci0 up
+TimeoutSec=30
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

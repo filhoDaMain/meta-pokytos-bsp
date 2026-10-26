@@ -1,0 +1,75 @@
+From fdb12be209bc0ad280ffb28a39eb072d7869dfde Mon Sep 17 00:00:00 2001
+From: "Andre Temprilho (filhoDaMain)" <temprilho93@gmail.com>
+Date: Sat, 24 Oct 2026 13:05:55 +0000
+Subject: [PATCH 1/2] Makefile: Fix compiler flags
+
+---
+ Makefile |  6 +-----
+ rule.mk  | 23 -----------------------
+ 2 files changed, 1 insertion(+), 28 deletions(-)
+
+diff --git a/Makefile b/Makefile
+index d902df9..5ba9672 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1,8 +1,4 @@
+-#CFLAGS := $(CFLAGS) -g
+-CFLAGS = -I. -Ilib -Wall -DVERSION=\"5.10\" -Wno-strict-aliasing
+-CFLAGS  += -Ilib/bluetooth
+-
+-# include rule.mk
++CFLAGS  += -Ilib -Ilib/bluetooth
+ include ./rule.mk
+ 
+ # define objects collection variable
+diff --git a/rule.mk b/rule.mk
+index c722cbb..2443cb5 100644
+--- a/rule.mk
++++ b/rule.mk
+@@ -4,21 +4,7 @@ OUTPUT_BIN := $(shell (mkdir -p output); cd ./output; pwd)
+ LIBDIR := $(shell cd $(pwd))/lib
+ BINDIR := $(shell cd $(pwd))/$(OUTPUT_BIN)
+ 
+-# define compiler
+-CC := gcc
+-CXX := g++
+ 
+-CPPFLAGS := $(CPPFLAGS) -I$(shell (cd $(pwd)))/include
+-
+-CFLAGS := -Wall -O3 -Os -pipe \
+-		 -D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64 \
+-		 -D_GNU_SOURCE -D_REENTRANT \
+-		 $(CFLAGS)
+-
+-# uses '=' let the variable parse when it's used
+-# COMPILE: compiles the source file specified
+-# COMPILEX: compiles the source file
+-# COMPILE_MSG: print compiling message
+ COMPILE = @$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
+ 		  $(CPPFLAGS) $(CFLAGS)
+ 
+@@ -33,13 +19,6 @@ COMPILECPPX = @$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
+ 
+ COMPILE_MSG = @echo "  CC\t$<"
+ 
+-LDFLAGS := -L$(SYSROOT)/lib -L$(SYSROOT)/usr/lib -L$(LIBDIR) \
+-	$(LDFLAGS)
+-
+-# uses '=' let the variable parse when it's used
+-# LINK: link the objects specified
+-# LINKX: compiles the objects
+-# LINK_MSG: print linking message
+ LINK = @$(CC) $(CFLAGS) $(LDFLAGS)
+ 
+ LINKX = @$(CC) -o $(BINDIR)/$@ $^ $(CFLAGS) $(LDFLAGS)
+@@ -50,7 +29,5 @@ LINKCPPX = @$(CXX) -o $(BINDIR)/$@ $^ $(CFLAGS) $(LDFLAGS)
+ 
+ LINK_MSG = @echo "  LN\t$^ -> $@"
+ 
+-AR = @arm-linux-gnueabi-ar
+-
+ ARFLAGS := -rc
+ 
+-- 
+2.34.1
+

@@ -8,6 +8,8 @@ SRC_URI += "\
     file://sunxi-kmeta;type=kmeta;name=sunxi-kmeta;destsuffix=sunxi-kmeta \
 "
 
+# Needs rw-work.
+# Better just using the updated armbian-uwe5622 instead.
 KERNEL_FEATURES:append = "\
     bsp/uwe5622/uwe5622-6_12.scc \
 "
