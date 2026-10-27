@@ -15,4 +15,4 @@ patch wireless-uwe5622-reduce-system-load.patch
 patch add-uwe5622-to-wireless-makefile.patch
 patch fix-makefiles-for-yocto-build.patch
 
-kconf harware uwe5622-fragment.cfg
+# kconf harware uwe5622-fragment.cfg
