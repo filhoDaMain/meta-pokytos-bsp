@@ -1,7 +1,14 @@
 require common-sun50i.inc
 
-SRC_URI:append:developer = "\
+SRC_URI:append:developer = " \
     file://debug.cfg \
+"
+
+# Conditionally included drivers
+SRC_URI += "\
+    ${@bb.utils.contains("MACHINE_FEATURES", "bluetooth", "\
+        file://bluetooth.cfg \
+    ", "", d)} \
 "
 
 SRC_URI += "\
