@@ -1,4 +1,0 @@
-include uwe5622-6_6.scc
-
-patch 0001-uwe5622-Warnings-C99-style-flexible-array-members.patch
-patch 0002-uwe5622-Warnings-set-mac-address-properly.patch
