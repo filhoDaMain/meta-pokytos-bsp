@@ -1,0 +1,45 @@
+From 65b1626a28ff4d4edcaf7d96218d51a5a412f17d Mon Sep 17 00:00:00 2001
+From: "Andre Temprilho (filhoDaMain)" <temprilho93@gmail.com>
+Date: Sat, 31 Oct 2026 15:50:16 +0000
+Subject: [PATCH] Makefile: Fix Yocto build
+
+---
+ Makefile | 18 ++++++++++++++++--
+ 1 file changed, 16 insertions(+), 2 deletions(-)
+
+diff --git a/Makefile b/Makefile
+index 2200980..e7a18ab 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1,12 +1,26 @@
+ ifneq ($(CONFIG_AW_WIFI_DEVICE_UWE5622)$(CONFIG_RK_WIFI_DEVICE_UWE5622),)
+-obj-y += unisocwcn/
++obj-m += unisocwcn/
+ endif
+ obj-$(CONFIG_WLAN_UWE5622)    += unisocwifi/
+ obj-$(CONFIG_TTY_OVERY_SDIO)  += tty-sdio/
+ 
+-UNISOCWCN_DIR := $(shell cd $(src)/unisocwcn/ && /bin/pwd)
++UNISOCWCN_DIR := ${S}/unisocwcn
+ UNISOC_BSP_INCLUDE := $(UNISOCWCN_DIR)/include
+ export UNISOC_BSP_INCLUDE
+ 
+ UNISOC_FW_PATH_CONFIG := "/lib/firmware/uwe5622/"
+ export UNISOC_FW_PATH_CONFIG
++
++
++SRC := $(shell pwd)
++all:
++	$(MAKE) -C $(KERNEL_SRC) M=$(SRC)
++
++modules_install:
++	$(MAKE) -C $(KERNEL_SRC) M=$(SRC) modules_install
++
++clean:
++	rm -f *.o *~ core .depend .*.cmd *.ko *.mod.c *.mod
++	rm -f Module.markers Module.symvers modules.order
++	rm -rf .tmp_versions Modules.symvers
++
+-- 
+2.44.4
+
